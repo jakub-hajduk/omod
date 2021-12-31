@@ -1,0 +1,35 @@
+{
+  "name": "omod",
+  "version": "1.0.0",
+  "description": "Modify object recursively with pipe able modifier functions",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakub-hajduk/omod.git"
+  },
+  "keywords": [
+    "json",
+    "object",
+    "modify",
+    "transform"
+  ],
+  "main": "lib/index.js",
+  "files": [
+    "lib/",
+    "lib/**/*"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "author": "Jakub Hajduk <devhajduk@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakub-hajduk/omod/issues"
+  },
+  "homepage": "https://github.com/jakub-hajduk/omod#readme",
+  "dependencies": {
+    "tinycolor2": "^1.4.2"
+  }
+}
