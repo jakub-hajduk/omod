@@ -1,7 +1,7 @@
-# omod
-Modify javascript objects recursively with pipeable node and value modifier functions
+# omod 2
+Modify javascript objects recursively with pipeable node modifier functions
 
-You can use this library for modifying any object in javascript.
+You can use this library for modifying any object in javascript including arrays and collections.
 
 Those functions were initially created to translate figmaTokens JSON format to style-dictionary. Its purpose was to unify all values and resolve references.
 
@@ -20,27 +20,23 @@ const { omod } = require('omod');
 
 [...]
 
-const modifiedObject = omod(inputObject, valueModifierFn)
+const modifiedObject = omod(inputObject, modifierFn)
 ```
 
 # omod
+Omod runs modifier function for each node of the object recursively, doesn't matter if it is nested object, collection or primitives array. Therefore, it's up to modifier, what it is going to modify.  
+
 ```js
-omod(inputObject, valueModifierFn, nodeModifierFn)
+omod(inputObject, modifierFn)
 ```
 
-- `inputObject` - object to be modified
-- `valueModifierFn` - function for modifying values of object 
-- `nodeModifierFn` - function for modifying whole nodes of object.
+- `inputObject` - object to be modified 
+- `modifierFn` - function for modifying nodes of object.
 
-# Value Modifier Function
-```js
-const reverseValue = (value, path, object) => value.toString().split().reverse().join()
-```
-- `value` - current value to be modified
-- `path` - path to the value in form of array. For example: `['colors', 'primary', 'value']`
-- `object` - full initial object 
+# Modifier Function
+In modifier function you can modify whole nodes, array items, or primitive values of the object. Your function may test current node, and execute modifications to modify object selectively.
 
-# Node Modifier Function
+
 ```js
 const extractColorValues = (node, path, object) => {
   if (path.includes('colors') && 'value' in node) {
@@ -57,12 +53,12 @@ const extractColorValues = (node, path, object) => {
     }
   }
   
-  return node
+  return node // has to return node
 }
 ```
 
 - `value` - current value to be modified
-- `path` - path to the value in form of array. For example: `['colors', 'primary']`
+- `path` - path to the value in form of array. For example: `[ 'colors', 'primary', 4 ]`
 - `object` - full initial object
 
 
@@ -72,25 +68,46 @@ You can also pipe some modifiers using `modifierPipe`
 ```js
 const { omod, modifierPipe } = require('omod');
 
-const valueModifierA = [...]
-const valueModifierB = [...]
-const valueModifierC = [...]
+const modifierA = [...]
+const modifierB = [...]
+const modifierC = [...]
 
-const valueModifiers = modifierPipe(
-  valueModifierA,
-  valueModifierB,
-  valueModifierC,
+const modifiers = modifierPipe(
+  modifierA,
+  modifierB,
+  modifierC
 )
 
-const nodeModifierA = [...]
-const nodeModifierB = [...]
-const nodeModifierC = [...]
-
-const nodeModifiers = modifierPipe(
-  nodeModifierA,
-  nodeModifierB,
-  nodeModifierC
-)
-
-const modifiedObject = omod(object, valueModifiers, nodeModifiers)
+const modifiedObject = omod(object, modifiers)
 ```
+
+# Utility functions
+
+```javascript
+const { isArray, isString, last, get } = require('omod')
+```
+
+## get 
+Fetches value from object using given path
+
+## isArray
+Checks if given value is array
+
+## isArrayItem
+Checks if given path is path to array element
+
+
+## isNumber
+Checks if given value is number
+
+## isObject
+Checks if given value is object
+
+## isString
+Checks if given value is string
+
+## last
+Gets last element from array
+
+## modifierPipe
+Creates pipe for given modifiers

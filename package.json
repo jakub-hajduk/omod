@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "Modify object recursively with pipe able modifier functions",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -31,5 +31,14 @@
   "homepage": "https://github.com/jakub-hajduk/omod#readme",
   "dependencies": {
     "tinycolor2": "^1.4.2"
+  },
+  "devDependencies": {
+    "ava": "^4.3.1"
+  },
+  "ava": {
+    "snapshotDir": "./snapshots",
+    "files": [
+      "./lib/**/*.test.js"
+    ]
   }
 }
